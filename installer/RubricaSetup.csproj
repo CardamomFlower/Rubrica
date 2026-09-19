@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The installer: one small exe that carries Rubrica.exe inside it (the EmbeddedResource
+    below) and doubles as the uninstaller. Same toolchain and same runtime as the app -
+    .NET Framework 4.6, which every Windows 10 already has.
+
+      dotnet build installer\RubricaSetup.csproj -c Release
+
+    builds the app first (the ProjectReference), then this. The result is
+    installer\bin\Release\RubricaSetup.exe.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net46</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <LangVersion>7.3</LangVersion>
+    <RootNamespace>Rubrica.Setup</RootNamespace>
+    <AssemblyName>RubricaSetup</AssemblyName>
+    <Product>Rubrica Setup</Product>
+    <ApplicationIcon>..\src\Rubrica\Rubrica.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- CS0649 "field is never assigned": the two Model files are linked in only because the
+         drawing code names a Category; the installer never fills a contact in. -->
+    <NoWarn>$(NoWarn);CS0649</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Built first; not referenced as a library and not copied beside the installer. -->
+    <ProjectReference Include="..\src\Rubrica\Rubrica.csproj" ReferenceOutputAssembly="false" Private="false" />
+
+    <!-- The payload. -->
+    <EmbeddedResource Include="..\src\Rubrica\bin\$(Configuration)\Rubrica.exe" LogicalName="Rubrica.exe" Link="Payload\Rubrica.exe" />
+
+    <!-- The window is drawn with the app's own drawing code, so that it looks the part. -->
+    <Compile Include="..\src\Rubrica\Constants.cs" Link="App\Constants.cs" />
+    <Compile Include="..\src\Rubrica\Model\*.cs" Link="App\Model\%(Filename)%(Extension)" />
+    <!-- The words, and state.xml for the language the operator picked in Rubrica. -->
+    <Compile Include="..\src\Rubrica\Ui\Lang.cs;..\src\Rubrica\Core\AppState.cs" Link="App\%(Filename)%(Extension)" />
+    <Compile Include="..\src\Rubrica\Ui\AppFonts.cs;..\src\Rubrica\Ui\BinderView.cs;..\src\Rubrica\Ui\Controls.cs;..\src\Rubrica\Ui\Css.cs;..\src\Rubrica\Ui\GlyphText.cs;..\src\Rubrica\Ui\Icons.cs;..\src\Rubrica\Ui\PaperSlip.cs;..\src\Rubrica\Ui\Textures.cs"
+             Link="App\Ui\%(Filename)%(Extension)" />
+    <Resource Include="..\src\Rubrica\Fonts\*.ttf" Link="Fonts\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

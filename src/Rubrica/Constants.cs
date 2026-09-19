@@ -1,0 +1,27 @@
+namespace Rubrica
+{
+    /// The structural numbers of architecture section 1. Nothing else hard-codes them.
+    static class Constants
+    {
+        public const int DesignWidth = 960;
+        public const int DesignHeight = 720;
+
+        public const int MaxCategories = 6;
+        public const int MaxPhones = 3;
+        public const int RecentMax = 24;
+        public const int UndoSeconds = 10;
+
+        public const int SchemaVersion = 1;
+
+        /// No field is longer than this, however it arrives (typed, pasted, imported): a page
+        /// has to be drawn with it. The notes get more room.
+        public const int MaxFieldLength = 120;
+        public const int MaxNotesLength = 2000;
+
+        /// IMPORT refuses anything larger: a few hundred contacts are some tens of KB.
+        public const int MaxImportBytes = 4 * 1024 * 1024;
+
+        /// Under %APPDATA%. The folder above "Rubrica" is shared with FlowerMachine.
+        public const string DataFolder = @"CardamomTools\Rubrica";
+    }
+}

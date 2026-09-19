@@ -1,0 +1,13 @@
+<Project>
+
+  <!--
+    Read by every project under this folder. The version lives here and nowhere else:
+    Rubrica.exe carries it, and so does the installer, which writes it into Settings > Apps.
+  -->
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <Company>Cardamom Tools</Company>
+    <Copyright>(C) 2026 Cardamom Tools</Copyright>
+  </PropertyGroup>
+
+</Project>

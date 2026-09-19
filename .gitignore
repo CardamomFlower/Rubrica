@@ -1,0 +1,25 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# OS clutter
+Thumbs.db
+desktop.ini
+
+# Agent / editor local config, and the working conventions for it (kept out, as in FlowerMachine)
+.claude/
+CLAUDE.md
+
+# Working material, kept locally and out of the repository:
+# the design canvas, the internal design notes, the fidelity tooling
+design/
+docs/
+tools/
+
+# Builds handed to the owner for verification
+builds/
