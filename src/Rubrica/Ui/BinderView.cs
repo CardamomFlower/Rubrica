@@ -420,7 +420,7 @@ namespace Rubrica.Ui
 
             // Written left to right, then turned: top to bottom on the right, bottom to top on the left.
             var line = new StackPanel { Orientation = Orientation.Horizontal };
-            // The label may run the whole length of the tab, as FAVORITES does on the canvas
+            // The label may run the whole length of the tab, as FAVORITES does
             // (the last 2 px of its width are letter-spacing, not ink).
             double room = h + 2;
             if (withStar)

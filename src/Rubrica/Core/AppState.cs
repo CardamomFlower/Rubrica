@@ -33,7 +33,7 @@ namespace Rubrica.Core
         public double Left = double.NaN, Top = double.NaN, Width = double.NaN, Height = double.NaN;
         public bool Maximized;
 
-        /// Paint without the graphics card ("--software", architecture section 7).
+        /// Paint without the graphics card (the "--software" option).
         public bool Software;
 
         /// Where BACKUP NOW last wrote; "" = never.
@@ -122,7 +122,7 @@ namespace Rubrica.Core
                         new XAttribute(Xml.Action, entry.Action),
                         new XAttribute(Xml.At, entry.At.ToString(Stamp, CultureInfo.InvariantCulture))));
 
-                // It is rewritten at every look-up: complete under another name first, so that a
+                // It is written whole every time: complete under another name first, so that a
                 // power cut cannot leave half a file - and with it lose the --software setting.
                 string file = Path.Combine(folder, Xml.File), fresh = Path.Combine(folder, Xml.Temp);
                 using (var stream = new FileStream(fresh, FileMode.Create, FileAccess.Write, FileShare.None))

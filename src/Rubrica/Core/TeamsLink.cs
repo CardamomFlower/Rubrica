@@ -5,7 +5,7 @@ using Microsoft.Win32;
 namespace Rubrica.Core
 {
     /// The one thing Rubrica does outside itself: open the Teams chat with a contact.
-    /// A chat, never a call (architecture section 4.3).
+    /// A chat, never a call.
     static class TeamsLink
     {
         /// Hands an address to Windows. Replaced by the tests, which must not open anything.

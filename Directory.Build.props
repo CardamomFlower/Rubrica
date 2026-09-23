@@ -5,9 +5,7 @@
     Rubrica.exe carries it, and so does the installer, which writes it into Settings > Apps.
   -->
   <PropertyGroup>
-    <Version>0.1.0</Version>
-    <Company>Cardamom Tools</Company>
-    <Copyright>(C) 2026 Cardamom Tools</Copyright>
+    <Version>0.2.0</Version>
   </PropertyGroup>
 
 </Project>

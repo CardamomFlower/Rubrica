@@ -9,7 +9,7 @@ using static Rubrica.Ui.Lang;
 
 namespace Rubrica.Ui
 {
-    /// The quick search (design artboards "Quick search" and "Search - no results"): a line
+    /// The quick search: a line
     /// to write in at the top of the left page, the count of what was found, and the results
     /// flowing over the pages like any list, the match marked in each name. The field stays
     /// put while the results are rewritten at every keystroke.

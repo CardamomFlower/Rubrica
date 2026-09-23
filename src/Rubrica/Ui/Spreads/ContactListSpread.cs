@@ -14,7 +14,7 @@ namespace Rubrica.Ui
     /// favorites. Each page is 300 px wide and its rows stack top to bottom like the
     /// design's flex columns.
     ///
-    /// Two looks, as on the canvas. A category files its contacts by letter: a red initial
+    /// Two looks, as drawn. A category files its contacts by letter: a red initial
     /// in the margin and an "A - D" range in the header. A collection such as Favorites has
     /// no margin, names the category beside each contact, and has a fixed header label.
     sealed class ContactListSpread
@@ -24,7 +24,7 @@ namespace Rubrica.Ui
         static readonly Color Pencil = Controls.Pencil;      // small typewriter labels
         static readonly Color Red = Controls.Red;            // letter markers, hover
 
-        // Heights from the artboards. An entry: 24 name + 15 role (14 + 1 gap) + 21 per channel (20 + 1).
+        // Heights from the design. An entry: 24 name + 15 role (14 + 1 gap) + 21 per channel (20 + 1).
         const double PageWidth = 300, PageHeight = 540, HeaderHeight = 32, HeaderGap = 14, EntryGap = 10;
         const double NameRowHeight = 24, RoleRowHeight = 15, ChannelRowHeight = 21;
 
@@ -351,7 +351,7 @@ namespace Rubrica.Ui
 
         // ---- nobody to list ------------------------------------------------------------
 
-        /// The empty page of the "Empty category" artboard: a handwritten line, a typed hint
+        /// The empty page of a category: a handwritten line, a typed hint
         /// that wraps, and optionally a row of stamps.
         public static FrameworkElement EmptyState(string headline, string hint, params FrameworkElement[] stamps)
         {

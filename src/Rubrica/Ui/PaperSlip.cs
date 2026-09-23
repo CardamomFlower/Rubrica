@@ -112,7 +112,7 @@ namespace Rubrica.Ui
     {
         public const double Width = 336;
 
-        /// The slip of the "Delete - confirm" artboard: a red typed question, a handwritten
+        /// The slip that asks before a delete: a red typed question, a handwritten
         /// explanation, and two stamps - the harmless one first. 336 x 206, a little crooked.
         public static Canvas Question(string title, string body, string keepLabel, string confirmLabel, Action onKeep, Action onConfirm)
         {
@@ -133,7 +133,7 @@ namespace Rubrica.Ui
         public static Canvas Sheet(string title, string body, FrameworkElement extra, string keepLabel, string confirmLabel,
                                    StampStyle confirmStyle, Action onKeep, Action onConfirm)
         {
-            const double w = Width, padX = 25, padY = 23;   // 1 px border + the canvas's 24 / 22 padding
+            const double w = Width, padX = 25, padY = 23;   // 1 px border + the design's 24 / 22 padding
             StackPanel titleLines = GlyphText.Wrap(title, AppFonts.Type, 14, Controls.Red, 2, 14, w - 2 * padX);
             StackPanel bodyLines = GlyphText.Wrap(body, AppFonts.Hand, 19, Controls.Ink, 0, 24, w - 2 * padX);
             Canvas confirm = confirmLabel == null ? null : Controls.Id(Controls.Stamp(confirmLabel, confirmStyle, -1.5, onConfirm), "slip-confirm");
@@ -169,7 +169,7 @@ namespace Rubrica.Ui
             return slip;
         }
 
-        /// The strip of the "Deleted - undo" artboard: what happened, and optionally one stamp.
+        /// The strip that follows a delete: what happened, and optionally one stamp.
         /// 360 x 46, lying along the bottom of the book.
         public static Canvas Strip(string message, string stampLabel, Action onStamp)
         {

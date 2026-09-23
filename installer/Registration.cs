@@ -13,8 +13,11 @@ namespace Rubrica.Setup
             {
                 key.SetValue("DisplayName", Places.AppName);
                 key.SetValue("DisplayVersion", Places.Version);
-                key.SetValue("Publisher", Places.Publisher);
                 key.SetValue("URLInfoAbout", Places.Website);
+                // An install up to 0.1.0 wrote a publisher here, and CreateSubKey opens that key
+                // rather than clearing it: taking the value out of the code does not take it off
+                // the PC, and Settings would go on showing it.
+                key.DeleteValue("Publisher", false);   // false = fine if it was never there
                 key.SetValue("InstallLocation", places.InstallFolder);
                 key.SetValue("DisplayIcon", places.InstalledExe + ",0");
 

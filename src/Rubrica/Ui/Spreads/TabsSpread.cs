@@ -10,7 +10,7 @@ using static Rubrica.Ui.Lang;
 
 namespace Rubrica.Ui
 {
-    /// The page that manages the categories (design artboard "Manage tabs"): rename in place,
+    /// The page that manages the categories: rename in place,
     /// reorder with the arrows, add one with a name and a colour, delete one - which asks, on
     /// the right page, where its contacts should go. It changes the book itself and says so
     /// through the two events; saving and redrawing are MainWindow's business.
@@ -254,7 +254,7 @@ namespace Rubrica.Ui
 
         FrameworkElement DeleteSlip(Category category)
         {
-            const double pad = 23;   // 1 px border + the canvas's 22
+            const double pad = 23;   // 1 px border + the design's 22
             double inner = PageWidth - 2 * pad;
             int holds = book.CountIn(category);
             List<Category> others = Others(category);

@@ -64,7 +64,7 @@ namespace Rubrica.Setup
                 return 1;
             }
             // The language the operator picked in Rubrica, if they did.
-            if (Option(args, "--language") == null) Ui.Lang.Current = Ui.Lang.Choose(Core.AppState.Load(places.DataFolder).Language);
+            if (Option(args, "--language") == null) Ui.Lang.Current = Ui.Lang.Choose(Places.PickedLanguage(places));
 
             if (Has(args, "--unattended"))
             {

@@ -41,7 +41,7 @@ namespace Rubrica.Core
         public bool FromUnfinishedSave;
     }
 
-    /// Reads and writes book.xml (architecture section 3).
+    /// Reads and writes book.xml.
     ///   book.xml  the book
     ///   book.bak  the save before the last one, left by the atomic replace
     ///   book.tmp  exists only while a save is in progress
@@ -65,13 +65,91 @@ namespace Rubrica.Core
         string BakPath { get { return Path.Combine(folder, "book.bak"); } }
         string TmpPath { get { return Path.Combine(folder, "book.tmp"); } }
 
-        /// %APPDATA%\CardamomTools\Rubrica
+        /// %APPDATA%\Rubrica
         public static string DefaultFolder()
         {
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             // An empty answer would quietly turn the book's folder into one relative to wherever Rubrica was started from.
             if (string.IsNullOrEmpty(appData)) throw new InvalidOperationException("Windows did not say where this user's AppData folder is.");
             return Path.Combine(appData, Constants.DataFolder);
+        }
+
+        /// Where the book is, and the one-time move of one left in %APPDATA%\CardamomTools\Rubrica
+        /// by a build up to 0.1.0. When that move cannot be done now - a file held open by an
+        /// antivirus - the old folder is used for this run and the next start tries again: an old
+        /// book that cannot be moved must never look like a new empty one.
+        public static string FolderToUse()
+        {
+            string to = DefaultFolder();
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            return FolderToUse(Path.Combine(appData, Constants.OldDataFolder), to);
+        }
+
+        /// The same with both folders named, for the tests: the one above works on the real
+        /// AppData, which a test must not touch.
+        internal static string FolderToUse(string from, string to)
+        {
+            if (!MoveFolder(from, to) && !HoldsABook(to) && HoldsABook(from)) return from;
+            CarryState(from, to);
+            return to;
+        }
+
+        /// state.xml left in the old folder by a move that got the book across and no further.
+        /// Nobody would come back for it - the old folder holds no book any more - and what is in
+        /// it is the renderer, the language, where the window was and the last look-ups. It is
+        /// copied rather than moved, because a file can be read while something else holds it, and
+        /// never over one the new folder has written for itself. Failing does no harm: the next
+        /// start tries again.
+        static void CarryState(string from, string to)
+        {
+            try
+            {
+                string left = Path.Combine(from, StateFile), there = Path.Combine(to, StateFile);
+                if (File.Exists(left) && !File.Exists(there) && Directory.Exists(to)) File.Copy(left, there);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// Any of the three files Load can open a book from. state.xml alone is not a book.
+        static bool HoldsABook(string folder)
+        {
+            foreach (string name in BookFiles)
+                if (File.Exists(Path.Combine(folder, name))) return true;
+            return false;
+        }
+
+        /// In the order Load prefers them, so that a move cut half-way never leaves the newer
+        /// copy behind and the older one in front.
+        static readonly string[] BookFiles = { "book.xml", "book.tmp", "book.bak" };
+
+        const string StateFile = "state.xml";
+
+        /// Moves a book and its state from one folder to the other - files one by one, the book
+        /// first, so that a failure half-way leaves something readable in one of the two places.
+        /// Nothing is moved into a folder that already holds a book of its own. Returns true when
+        /// the old folder held one and it was moved.
+        internal static bool MoveFolder(string from, string to)
+        {
+            if (!HoldsABook(from) || HoldsABook(to)) return false;
+
+            try
+            {
+                Directory.CreateDirectory(to);
+                foreach (string name in new[] { "book.xml", "book.tmp", "book.bak", StateFile })
+                {
+                    string file = Path.Combine(from, name);
+                    if (File.Exists(file) && !File.Exists(Path.Combine(to, name))) File.Move(file, Path.Combine(to, name));
+                }
+                // Whatever else is in there (a damaged book set aside) stays: the folder goes only if it is empty.
+                if (Directory.GetFileSystemEntries(from).Length == 0) Directory.Delete(from);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;   // the old folder is still there and still readable: nothing is lost
+            }
         }
 
         // ---- loading ---------------------------------------------------------------------

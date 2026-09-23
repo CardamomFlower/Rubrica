@@ -6,19 +6,18 @@ namespace Rubrica.Setup
 {
     /// Everything the installer and the uninstaller must agree on, in one place.
     ///
-    /// A per-user install (architecture 7.1): nothing here needs an administrator, nothing is
+    /// A per-user install: nothing here needs an administrator, nothing is
     /// written outside HKEY_CURRENT_USER and the user's own folders, and the process is never
     /// elevated (app.manifest says asInvoker) - a UAC prompt would point %LOCALAPPDATA% at
     /// the administrator's profile and install in the wrong place.
     sealed class Places
     {
         public const string AppName = "Rubrica";
-        public const string Publisher = "Cardamom Tools";
         public const string Website = "https://github.com/CardamomFlower/Rubrica";
         public const string ExeName = "Rubrica.exe";
         public const string UninstallerName = "Uninstall Rubrica.exe";
         public const string ShortcutName = "Rubrica.lnk";
-        public const string ShortcutComment = "The radio's contacts book";
+        public const string ShortcutComment = "A contacts book";
         public const string PayloadResource = "Rubrica.exe";   // the LogicalName in RubricaSetup.csproj
 
         /// %LOCALAPPDATA%\Programs\Rubrica. Local, not roaming: a program image in roaming
@@ -28,9 +27,12 @@ namespace Rubrica.Setup
         public string StartMenuFolder;
         public string DesktopFolder;
 
-        /// The operator's book. Only ever this folder: CardamomTools above it is shared with
-        /// FlowerMachine.
+        /// The operator's book, and nothing above it.
         public string DataFolder;
+
+        /// Where the book was kept up to 0.1.0, until Rubrica moves it on its first start. Only
+        /// this folder: what sits above it may belong to another program.
+        public string OldDataFolder;
 
         /// Under HKEY_CURRENT_USER.
         public string UninstallKey;
@@ -53,6 +55,7 @@ namespace Rubrica.Setup
                 StartMenuFolder = Environment.GetFolderPath(Environment.SpecialFolder.Programs),      // "" = no shortcut there, reported
                 DesktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                 DataFolder = Path.Combine(roaming, Constants.DataFolder),
+                OldDataFolder = Path.Combine(roaming, Constants.OldDataFolder),
                 UninstallKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\" + AppName,
             };
         }
@@ -68,8 +71,18 @@ namespace Rubrica.Setup
                 StartMenuFolder = Path.Combine(root, "StartMenu"),
                 DesktopFolder = Path.Combine(root, "Desktop"),
                 DataFolder = Path.Combine(root, "AppData", Constants.DataFolder),
-                UninstallKey = @"Software\CardamomTools\RubricaSetupSandbox\" + Path.GetFileName(root.TrimEnd('\\', '/')),
+                OldDataFolder = Path.Combine(root, "AppData", Constants.OldDataFolder),
+                UninstallKey = @"Software\Rubrica\SetupSandbox\" + Path.GetFileName(root.TrimEnd('\\', '/')),
             };
+        }
+
+        /// The language the operator picked in Rubrica ("it", "en", or "" for never picked):
+        /// from the book's folder, or from the one of 0.1.0 on a PC where the build that moves
+        /// it has not run yet. AppState.Load never throws.
+        public static string PickedLanguage(Places places)
+        {
+            string code = Rubrica.Core.AppState.Load(places.DataFolder).Language;
+            return code.Length > 0 ? code : Rubrica.Core.AppState.Load(places.OldDataFolder).Language;
         }
 
         /// "0.1.0": the version this installer carries - its own, since both exes are built

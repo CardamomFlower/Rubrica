@@ -8,7 +8,7 @@ using System.Windows.Shapes;
 
 namespace Rubrica.Ui
 {
-    /// The three rubber stamps of the canvas.
+    /// The three rubber stamps of the design.
     enum StampStyle
     {
         RedOutline,     // red outline, faint red wash: NEW CONTACT, COPY, DELETE
@@ -25,7 +25,7 @@ namespace Rubrica.Ui
         public static readonly Color Rule = Css.Hex("#8a7f6a");    // the line under a field
 
         /// Gives an element a stable id ("star-17", "tab-3", "page-forward"). It is WPF's standard
-        /// accessibility id; tools/uitest finds the things it clicks by it.
+        /// accessibility id; the tests find the things they click by it.
         public static T Id<T>(T element, string id) where T : DependencyObject
         {
             System.Windows.Automation.AutomationProperties.SetAutomationId(element, id);
@@ -98,7 +98,7 @@ namespace Rubrica.Ui
             star.Stroke = Css.Fill(Css.Hex(favorite ? "#8a6a12" : "#8a7f6a"));
         }
 
-        /// A square of tab colour with the sheen the canvas gives it.
+        /// A square of tab colour with the sheen the design gives it.
         public static Canvas Swatch(Color color, double size, double radius)
         {
             var sheen = Css.Linear(90, size, size, Css.At(Css.Rgba(255, 255, 255, 0.25), 0), Css.At(Css.Rgba(0, 0, 0, 0.15), 100));
@@ -174,7 +174,7 @@ namespace Rubrica.Ui
         }
     }
 
-    /// A line to write on (the canvas's text input): handwriting on the page, a rule under it
+    /// A line to write on (the design's text input): handwriting on the page, a rule under it
     /// that turns red while it is being written on. 44 px tall, rule included.
     sealed class PaperLine : Grid
     {
@@ -197,7 +197,7 @@ namespace Rubrica.Ui
                 Height = underlined ? 43 : 44,   // the rule takes the last pixel
                 VerticalAlignment = VerticalAlignment.Top,
                 VerticalContentAlignment = VerticalAlignment.Center,
-                Padding = new Thickness(2, 0, 2, 0),      // plus the 2 px WPF keeps for the caret = the canvas's 4
+                Padding = new Thickness(2, 0, 2, 0),      // plus the 2 px WPF keeps for the caret = the 4 the design asks for
                 Background = Brushes.Transparent,
                 BorderThickness = new Thickness(0),
                 FontFamily = AppFonts.Hand.Family,
@@ -298,7 +298,7 @@ namespace Rubrica.Ui
         }
     }
 
-    /// The canvas's checkbox: 22 x 22, red with a white tick when on.
+    /// The design's checkbox: 22 x 22, red with a white tick when on.
     sealed class PaperCheck : Canvas
     {
         readonly Rectangle box;
@@ -349,7 +349,7 @@ namespace Rubrica.Ui
         }
     }
 
-    /// The canvas's select: the chosen value on a ruled line with a small arrow; a click
+    /// The design's select: the chosen value on a ruled line with a small arrow; a click
     /// unrolls the choices on a slip of paper just below (see Overlay).
     sealed class PaperSelect : Grid
     {
@@ -439,7 +439,7 @@ namespace Rubrica.Ui
         readonly List<GlyphText> texts = new List<GlyphText>();
         readonly List<Path> icons = new List<Path>();
 
-        /// gap: the space between the items, 8 px unless the canvas says otherwise.
+        /// gap: the space between the items, 8 px unless the design says otherwise.
         public InkLink(Color ink, Color hoverInk, double rowHeight, double gap = 8)
         {
             this.ink = ink;

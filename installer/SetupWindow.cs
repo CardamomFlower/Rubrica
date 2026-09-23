@@ -78,7 +78,7 @@ namespace Rubrica.Setup
 
             string installed = Registration.InstalledVersion(places);
             string body = installed == null
-                ? T("The radio's contacts book. It goes into your own programs folder: no administrator is needed.")
+                ? T("It goes into your own programs folder: no administrator is needed.")
                 : T("Rubrica {0} is installed and will be replaced. Your contacts book is not touched.", installed);
             boxes.Children.Add(CheckRow("setup-start-menu", T("START MENU ENTRY"), startMenu, ticked => startMenu = ticked));
             boxes.Children.Add(CheckRow("setup-desktop", T("DESKTOP SHORTCUT"), desktop, ticked => desktop = ticked));

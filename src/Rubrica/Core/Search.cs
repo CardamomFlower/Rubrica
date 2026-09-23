@@ -6,7 +6,7 @@ using Rubrica.Model;
 
 namespace Rubrica.Core
 {
-    /// Quick search (architecture section 4.7): name, surname, role, phone and email, ignoring
+    /// Quick search: name, surname, role, phone and email, ignoring
     /// case and accents. A few hundred contacts need no index: every keystroke looks at them all.
     static class Search
     {

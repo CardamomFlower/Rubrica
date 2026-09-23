@@ -8,7 +8,7 @@ namespace Rubrica.Model
 
     sealed class Category
     {
-        /// The six tab colours of the canvas's palette (the Tabs page offers them; an import
+        /// The six tab colours of the palette (the Tabs page offers them; an import
         /// that creates a tab takes the first one still free).
         public static readonly string[] Palette = { "#b8382a", "#367a3e", "#474790", "#7d4f22", "#2a7a78", "#4a5a70" };
 
@@ -21,7 +21,7 @@ namespace Rubrica.Model
     /// none of their own and are sorted whenever they are shown.
     sealed class Book
     {
-        public string Name = "";                // the radio's name on the cover
+        public string Name = "";                // what the cover's plate says under CONTACTS, if anything
         public string Cover = "#2450a0";
         public SortBy SortBy = SortBy.Name;
         public int NextId = 1;

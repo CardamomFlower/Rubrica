@@ -8,7 +8,7 @@ using static Rubrica.Ui.Lang;
 
 namespace Rubrica.Ui
 {
-    /// The closed book (design artboard "Cover"): leather cover with its spine, the brass
+    /// The closed book: leather cover with its spine, the brass
     /// name plate, the OPEN tag, the elastic band and the divider tabs. Clicking the book
     /// opens it; clicking a tab opens it there.
     sealed class CoverView : Canvas
@@ -45,7 +45,7 @@ namespace Rubrica.Ui
             if (TabClicked != null) TabClicked(id);
         }
 
-        static Canvas ClosedBook(Color coverColor, string radioName)
+        static Canvas ClosedBook(Color coverColor, string bookName)
         {
             const double w = 488, h = 660;
             var radius = new CornerRadius(8, 24, 24, 8);
@@ -66,7 +66,7 @@ namespace Rubrica.Ui
             });
 
             Css.Place(cover, BinderView.Stitching(w - 74, h - 20, new CornerRadius(4, 15, 15, 4)), 64, 10);
-            Css.Place(cover, NamePlate(radioName), 141, 168);
+            Css.Place(cover, NamePlate(bookName), 141, 168);
             Css.Place(cover, OpenTag(), 380, 330);
 
             // The elastic band, a little longer than the book.
@@ -80,7 +80,7 @@ namespace Rubrica.Ui
 
         /// 260 x 104 paper label in a 7 px brass frame. CSS paints a border whose sides have
         /// different colours as four pieces mitred at 45 degrees, which is what makes it look bevelled.
-        static Canvas NamePlate(string radioName)
+        static Canvas NamePlate(string bookName)
         {
             const double w = 260, h = 104, b = 7;
             var plate = Css.Box(w, h, new CornerRadius(4),
@@ -100,9 +100,9 @@ namespace Rubrica.Ui
 
             // Two centred lines, 6 px apart: 24 + 6 + 12 = 42 px of text in the 90 px opening.
             var title = new GlyphText(T("CONTACTS"), AppFonts.Type, 24, Css.Hex("#1b2233"), 6);
-            // The program's own name, unless book.xml names a radio (owner, 2026-09-18: one name
-            // fits every radio the book is used at; nothing in the program edits it).
-            var name = new GlyphText(radioName.Length > 0 ? radioName.ToUpperInvariant() : "RUBRICA", AppFonts.Type, 12, Css.Hex("#6b6252"), 3,
+            // The program's own name, unless book.xml gives the book one of its own (nothing in
+            // the program edits it).
+            var name = new GlyphText(bookName.Length > 0 ? bookName.ToUpperInvariant() : "RUBRICA", AppFonts.Type, 12, Css.Hex("#6b6252"), 3,
                                      double.NaN, w - 2 * b - 16);
             Css.Place(plate, BinderView.CenteredText(title, w, 24), 0, b + 24);
             Css.Place(plate, BinderView.CenteredText(name, w, 12), 0, b + 24 + 24 + 6);

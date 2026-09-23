@@ -6,7 +6,7 @@ namespace Rubrica.Ui
 {
     enum Language { English, Italian }
 
-    /// Every word the program says, in English and in Italian (owner's decision, 2026-09-19).
+    /// Every word the program says, in English and in Italian.
     /// The code is written with the English text, as the design canvas draws it, and passes
     /// it through T(): the English is the key, the Italian is looked up in the table below.
     /// A text with no Italian is shown in English and noted in Missing, which the tests read.
@@ -268,10 +268,10 @@ namespace Rubrica.Ui
             // the installer
             { "Rubrica Setup", "Installazione di Rubrica" },
             { "Remove Rubrica", "Rimuovi Rubrica" },
-            { "The radio's contacts book", "La rubrica della radio" },
+            { "A contacts book", "Una rubrica dei contatti" },
             { "INSTALL RUBRICA {0}", "INSTALLA RUBRICA {0}" },
-            { "The radio's contacts book. It goes into your own programs folder: no administrator is needed.",
-              "La rubrica della radio. Va nella tua cartella dei programmi: non serve l'amministratore." },
+            { "It goes into your own programs folder: no administrator is needed.",
+              "Va nella tua cartella dei programmi: non serve l'amministratore." },
             { "Rubrica {0} is installed and will be replaced. Your contacts book is not touched.",
               "Rubrica {0} \u00e8 installata e verr\u00e0 sostituita. La tua rubrica non viene toccata." },
             { "START MENU ENTRY", "VOCE NEL MENU START" },
@@ -298,6 +298,7 @@ namespace Rubrica.Ui
             { "It has no shortcut: it is in your own programs folder.", "Non ha collegamenti: \u00e8 nella tua cartella dei programmi." },
             { "This installer is incomplete: it does not carry Rubrica. Download it again.", "Questo programma di installazione \u00e8 incompleto: non contiene Rubrica. Scaricalo di nuovo." },
             { "Rubrica is running. Close it and try again.", "Rubrica \u00e8 aperta. Chiudila e riprova." },
+            { "Rubrica's uninstaller is open. Close it and try again.", "La disinstallazione di Rubrica \u00e8 aperta. Chiudila e riprova." },
             { "The uninstaller could not be written.", "Non \u00e8 stato possibile scrivere il programma di disinstallazione." },
             { "The shortcut in the Start Menu could not be made.", "Non \u00e8 stato possibile creare il collegamento nel menu Start." },
             { "The shortcut on the desktop could not be made.", "Non \u00e8 stato possibile creare il collegamento sul desktop." },

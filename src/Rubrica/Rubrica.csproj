@@ -12,7 +12,7 @@
     <RootNamespace>Rubrica</RootNamespace>
     <AssemblyName>Rubrica</AssemblyName>
     <Product>Rubrica</Product>
-    <Description>The radio's contacts book</Description>
+    <Description>A contacts book</Description>
     <ApplicationIcon>Rubrica.ico</ApplicationIcon>
     <!-- Still one exe for 32- and 64-bit Windows, but a 32-bit process on both: measured, it
          commits about 40% less memory and keeps about 15% less of it in RAM (pointers are half

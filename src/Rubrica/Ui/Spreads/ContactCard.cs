@@ -10,9 +10,9 @@ using static Rubrica.Ui.Lang;
 
 namespace Rubrica.Ui
 {
-    /// The index card clipped over the right page (design artboard "Contact card"): who it
+    /// The index card clipped over the right page: who it
     /// is, every channel with a stamp beside it, the notes, and DELETE / EDIT at the bottom.
-    /// 322 px wide and normally 500 tall, turned 1.2 degrees; all numbers are the canvas's.
+    /// 322 px wide and normally 500 tall, turned 1.2 degrees; all numbers are the design's.
     sealed class ContactCard : Canvas
     {
         public event Action EditRequested;
@@ -60,7 +60,7 @@ namespace Rubrica.Ui
                 y += row.Height + Gap;
             }
 
-            // The card is 500 tall on the canvas; a contact with every channel filled in needs a
+            // The card is 500 tall as drawn; a contact with every channel filled in needs a
             // little more, and there is room for 24 px before the page number.
             const double notesCaption = 12;   // 10 px caption + 2
             double bottomBlock = Gap + StampHeight + PadBottom + Edge;
@@ -88,7 +88,7 @@ namespace Rubrica.Ui
             Css.Place(this, delete, Edge + PadX, stampsTop);
             Css.Place(this, edit, CardWidth - Edge - PadX - edit.Width, stampsTop);
 
-            // Not on the canvas (owner's request, 2026-09-18): two ways to put the card away with
+            // Not in the original drawing: two ways to put the card away with
             // the mouse. The x is pencil grey, because a red cross means "delete" on the Tabs page;
             // its 30 px target stays clear of the star.
             Action close = () => { if (CloseRequested != null) CloseRequested(); };

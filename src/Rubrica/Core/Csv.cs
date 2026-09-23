@@ -15,7 +15,7 @@ namespace Rubrica.Core
     }
 
     /// What an import would do, worked out before the book is touched: the operator reads
-    /// the figures on a slip and only then says yes (architecture section 5).
+    /// the figures on a slip and only then says yes.
     sealed class ImportPlan
     {
         /// True for a file with no header row: "name surname number", one contact per line.
@@ -43,7 +43,7 @@ namespace Rubrica.Core
         public readonly List<Category> Created = new List<Category>();
     }
 
-    /// CSV in and out (architecture section 5). One format for both, so a round trip loses
+    /// CSV in and out. One format for both, so a round trip loses
     /// nothing. Import also reads a plain "name surname number" list.
     static class Csv
     {

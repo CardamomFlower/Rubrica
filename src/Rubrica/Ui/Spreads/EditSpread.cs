@@ -9,7 +9,7 @@ using static Rubrica.Ui.Lang;
 
 namespace Rubrica.Ui
 {
-    /// The two-page form (design artboard "New / edit contact"): who they are on the left,
+    /// The two-page form: who they are on the left,
     /// how to reach them on the right. It edits a copy of the values; nothing touches the
     /// contact until SAVE, and CANCEL leaves no trace.
     sealed class EditSpread
@@ -38,7 +38,7 @@ namespace Rubrica.Ui
         readonly string before;
 
         /// existing: the contact to edit, or null for a new one, which starts in startCategoryId.
-        /// asDrawn: only for comparing with the artboard, which predates SURNAME - leaves that field out.
+        /// asDrawn: only for the pixel comparison with the original drawing, which predates SURNAME.
         public EditSpread(Book book, Contact existing, int startCategoryId, bool asDrawn = false)
         {
             this.book = book;
@@ -69,7 +69,7 @@ namespace Rubrica.Ui
             var top = new StackPanel { Width = PageWidth, VerticalAlignment = VerticalAlignment.Top };
             top.Children.Add(Header(T("CHANNELS"), "2 / 2"));
             top.Children.Add(phoneRows);
-            int rows = Math.Max(isNew ? 2 : 1, contact.Phones.Count);   // the canvas opens a new contact on two numbers
+            int rows = Math.Max(isNew ? 2 : 1, contact.Phones.Count);   // the design opens a new contact on two numbers
             for (int i = 0; i < Math.Min(rows, Constants.MaxPhones); i++)
                 AddPhoneRow(i < contact.Phones.Count ? contact.Phones[i] : null);
             addNumber = AddNumberLink();

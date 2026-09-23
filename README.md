@@ -1,15 +1,14 @@
 # Rubrica
 
-A contacts book for a radio station, drawn as the ring binder it replaces: coloured
-divider tabs for the categories, a page of favorites, a paper clip on the card you are
-reading.
+A contacts book, drawn as the ring binder it replaces: coloured divider tabs for the
+categories, a page of favorites, a paper clip on the card you are reading.
 
 ![The closed book](assets/cover.png)
 
-It keeps names, numbers, addresses and notes, and makes them quick to reach while you
-are on air. It does not place calls or send mail. A click copies a number or an
-address to the clipboard, and one stamp opens the Teams chat with that person; that is
-all it reaches outside itself.
+It keeps names, numbers, addresses and notes, and makes them quick to reach. It does
+not place calls or send mail. A click copies a number or an address to the clipboard,
+and one stamp opens the Teams chat with that person; that is all it reaches outside
+itself.
 
 One book per PC, no network, no account, in English or Italian. Windows 10 or later;
 nothing else to install, because it runs on the .NET Framework that every Windows 10
@@ -26,7 +25,9 @@ say that it does not know the publisher - choose **More info**, then **Run anywa
 
 Uninstall it from Settings > Apps like anything else. Your contacts are left where
 they are unless you tick the box that says otherwise. Installing a newer version over
-an older one replaces the program and leaves the book alone.
+an older one replaces the program and keeps your contacts - if they were written by
+version 0.1.0 they stay in the old folder until you start the new version once (see
+**Where the book lives**).
 
 ## Leafing through it
 
@@ -52,15 +53,12 @@ Put the card away with the **x** in its corner, a click on the paper clip, **Esc
 another click on the circled name. **DELETE** asks first, and for ten seconds
 afterwards a strip offers **UNDO**.
 
-Everything answers to a single click. The second click of a double-click is ignored -
-except on the page corners, which are meant to be clicked in a row - so opening things
-the Windows way does no harm.
-
 ## Finding people
 
 Press **/** anywhere - or click the SEARCH tab - and type. The search looks through
 every category at once, in names, roles, numbers and addresses, ignoring capitals and
-accents; a number is found however it was written, with or without spaces and prefix.
+accents; a number is found by its last digits, however it was written in the book -
+with or without spaces and prefix.
 With nothing typed it lists everybody in one alphabet.
 
 ![Searching](assets/search.png)
@@ -123,13 +121,19 @@ Note`).
 
 ## Where the book lives
 
-In `%APPDATA%\CardamomTools\Rubrica`:
+In `%APPDATA%\Rubrica`:
 
 | File | What |
 |---|---|
 | `book.xml` | The book. The only file that matters. |
 | `book.bak` | The save before the last one. |
 | `state.xml` | Window position, language, recent look-ups. Deleting it loses nothing of value. |
+
+Version 0.1.0 kept these files in `%APPDATA%\CardamomTools\Rubrica`. The first time a
+newer version starts it moves them here by itself, once, and takes the old folder away
+with them. Nothing is lost if it cannot - that run keeps using the old folder and the
+next start tries again. If you have a copy of that folder of your own, or a backup job
+pointed at it, point it here instead.
 
 If `book.xml` is ever damaged, Rubrica sets it aside under another name, opens
 `book.bak` instead and tells you. If it is merely out of reach - another program is
@@ -161,12 +165,8 @@ dotnet build installer\RubricaSetup.csproj -c Release
 
 builds the app and then the installer, which carries a copy of the app inside it:
 `src\Rubrica\bin\Release\Rubrica.exe` and `installer\bin\Release\RubricaSetup.exe`.
-The version number is in `Directory.Build.props`.
-
-The user interface is WPF written entirely in C# - there is no XAML - and the program
-uses no third-party library. Comments in the code cite an "architecture" document and
-test tools (`tools/...`): those are the author's working material and are kept outside
-the repository.
+The version number is in `Directory.Build.props`. The user interface is WPF written
+entirely in C# - there is no XAML - and the program uses no third-party library.
 
 ## Licence
 

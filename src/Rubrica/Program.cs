@@ -11,11 +11,11 @@ using static Rubrica.Ui.Lang;
 
 namespace Rubrica
 {
-    // Entry point. Command line. For the operator (architecture section 7):
+    // Entry point. Command line. For the operator:
     //   --software                paint without the graphics card, from now on (state.xml remembers)
     //   --hardware                back to letting Windows choose
     // For development:
-    //   --data FOLDER             keep the book there instead of %APPDATA%\CardamomTools\Rubrica
+    //   --data FOLDER             keep the book there instead of %APPDATA%\Rubrica
     //   --sample design|large     fill an empty book with generated contacts
     //   --snapshot FILE.png       draw one place into an image and exit
     //   --place NAME              which place to draw: cover, favorites, category:2 ...
@@ -44,7 +44,7 @@ namespace Rubrica
             string folder;
             try
             {
-                folder = Path.GetFullPath(Option(args, "--data") ?? BookStore.DefaultFolder());
+                folder = Path.GetFullPath(Option(args, "--data") ?? BookStore.FolderToUse());
             }
             catch (InvalidOperationException error)
             {
@@ -58,7 +58,7 @@ namespace Rubrica
 
             // One Rubrica per book: two would save over each other. The second one wakes the
             // first and leaves. (A snapshot only reads, so it may run alongside.)
-            string key = "CardamomTools.Rubrica." + StableHash(folder.ToLowerInvariant()).ToString("x8");
+            string key = "Rubrica." + StableHash(folder.ToLowerInvariant()).ToString("x8");
             bool first;
             using (var mutex = new Mutex(true, key, out first))
             using (var wake = new EventWaitHandle(false, EventResetMode.AutoReset, key + ".wake"))

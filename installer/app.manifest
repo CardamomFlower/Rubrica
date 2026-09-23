@@ -6,7 +6,7 @@
   Rubrica would be installed for the wrong person.
 -->
 <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
-  <assemblyIdentity version="1.0.0.0" name="CardamomTools.RubricaSetup" />
+  <assemblyIdentity version="1.0.0.0" name="Rubrica.Setup" />
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">

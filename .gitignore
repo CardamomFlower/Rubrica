@@ -11,7 +11,7 @@ obj/
 Thumbs.db
 desktop.ini
 
-# Agent / editor local config, and the working conventions for it (kept out, as in FlowerMachine)
+# Agent / editor local config, and the working conventions for it (kept out of the repository)
 .claude/
 CLAUDE.md
 

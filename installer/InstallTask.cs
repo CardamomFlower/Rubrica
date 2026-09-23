@@ -40,6 +40,10 @@ namespace Rubrica.Setup
 
             if (Files.InUse(places.InstalledExe))
                 return Outcome.Failed(T("Rubrica is running. Close it and try again."));
+            // An uninstaller left open cannot be replaced, and the one of 0.1.0 looks for the book
+            // where that version kept it: better to do nothing than to leave that behind.
+            if (Files.InUse(places.Uninstaller))
+                return Outcome.Failed(T("Rubrica's uninstaller is open. Close it and try again."));
 
             Directory.CreateDirectory(places.InstallFolder);
 
@@ -63,8 +67,9 @@ namespace Rubrica.Setup
             }
             catch (Exception)
             {
-                // An older one may be running (its window left open): it still uninstalls this version.
-                if (!File.Exists(places.Uninstaller)) problems.Add(T("The uninstaller could not be written."));
+                // What is left there is then an older version's, and an older uninstaller looks for
+                // the book where that version kept it: never leave this one unsaid.
+                problems.Add(T("The uninstaller could not be written."));
             }
 
             // ---- shortcuts
@@ -91,7 +96,7 @@ namespace Rubrica.Setup
         }
 
         /// "Rubrica" is also the Italian for a phone book: a Rubrica.lnk that is already there and
-        /// opens something else - the station's own list, say - is the operator's, and stays.
+        /// opens something else - another contacts list, say - is the operator's, and stays.
         static bool MakeShortcut(string folder, Places places, List<string> problems, string ifItFails, string ifSomeoneElses)
         {
             try

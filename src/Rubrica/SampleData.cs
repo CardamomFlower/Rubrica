@@ -8,13 +8,13 @@ namespace Rubrica
     /// address is at example.com. No real contact ever goes into the repository.
     static class SampleData
     {
-        /// The placeholder book drawn on the design canvas, so a screen can be compared
-        /// with its artboard pixel by pixel.
+        /// The placeholder book the screens were designed with, so that one can be compared
+        /// with its original drawing pixel by pixel.
         public static void FillLikeTheDesign(Book book)
         {
             book.Categories.Clear();
             book.Contacts.Clear();
-            book.Name = "[RADIO NAME]";   // what the canvas writes on the cover's plate
+            book.Name = "[BOOK NAME]";   // the placeholder on the cover's plate
             Category one = AddCategory(book, "CATEGORY 1", "#b8382a");
             Category two = AddCategory(book, "CATEGORY 2", "#367a3e");
             AddCategory(book, "CATEGORY 3", "#474790");
@@ -44,7 +44,7 @@ namespace Rubrica
                 book.Contacts.Add(contact);
             }
 
-            // The "Manage tabs" artboard says CATEGORY 4 holds three contacts, without naming them.
+            // The Tabs page was drawn with three contacts under CATEGORY 4, and never names them.
             foreach (string name in new[] { "NOVEMBER", "OSCAR", "PAPA" })
             {
                 var contact = new Contact { Id = book.NewId(), CategoryId = four.Id, Name = name, Role = "ROLE / ORG", Email = name.ToLowerInvariant() + "@example.com" };
@@ -61,9 +61,9 @@ namespace Rubrica
             book.Contacts.Clear();
             Category[] categories =
             {
-                AddCategory(book, "GUESTS", "#b8382a"),
-                AddCategory(book, "PRESS", "#367a3e"),
-                AddCategory(book, "STAFF", "#474790"),
+                AddCategory(book, "WORK", "#b8382a"),
+                AddCategory(book, "FRIENDS", "#367a3e"),
+                AddCategory(book, "FAMILY", "#474790"),
                 AddCategory(book, "SERVICES", "#7d4f22"),
             };
 
@@ -71,10 +71,10 @@ namespace Rubrica
                                "Nicol\u00f2", "Olga", "Paolo", "Rita", "Sara", "Tommaso", "Ugo", "Vera", "Maria Grazia", "Pier Paolo" };
             string[] last = { "Amato", "Bianchi", "Conti", "D'Angelo", "De Luca", "Esposito", "Ferri", "Gallo", "Dalla Chiesa", "Leone",
                               "Marino", "Neri", "Orlando", "Pace", "Riva", "Serra", "Testa", "Villa", "Zanetti", "\u00c8rcole" };
-            string[] roles = { "Journalist", "Press office", "Councillor", "Musician", "Author", "Sound engineer",
-                               "Producer", "Presenter", "Promoter", "Photographer" };
-            string[] organisations = { "Taxi Centrale", "City Hall - Press Office", "Police - Control Room", "Theatre Box Office",
-                                       "Studio Maintenance", "Courier Express", "Weather Service", "Traffic Info Line" };
+            string[] roles = { "Architect", "Accountant", "Dentist", "Teacher", "Lawyer", "Electrician",
+                               "Plumber", "Surveyor", "Physiotherapist", "Photographer" };
+            string[] organisations = { "Taxi Centrale", "City Hall - Registry", "Police - Control Room", "Theatre Box Office",
+                                       "Building Maintenance", "Courier Express", "Weather Service", "Traffic Info Line" };
 
             var random = new Random(7);   // fixed seed: the same book every time
             for (int i = 0; i < 52; i++)
@@ -101,7 +101,7 @@ namespace Rubrica
 
         static void FillChannels(Contact contact, Random random, int serial)
         {
-            string[] labels = { "OFFICE", "MOBILE", "STUDIO", "HOME" };
+            string[] labels = { "OFFICE", "MOBILE", "DESK", "HOME" };
             int phones = 1 + random.Next(3) / 2 + (random.Next(10) == 0 ? 1 : 0);   // mostly one, sometimes two or three
             for (int p = 0; p < phones; p++)
                 contact.Phones.Add(new Phone("+39 000 000 " + (serial * 3 + p + 1).ToString("0000"), labels[(serial + p) % labels.Length]));

@@ -9,9 +9,9 @@ using static Rubrica.Ui.Lang;
 
 namespace Rubrica.Ui
 {
-    /// The "Setup" artboard. On the left the inside of the cover shows instead of a page: a
+    /// The Setup page. On the left the inside of the cover shows instead of a page: a
     /// pocket holding three slips - IMPORT CSV, EXPORT CSV, BACKUP NOW. On the right, one
-    /// page: the sort order and the keyboard legend. All numbers are the canvas's.
+    /// page: the sort order and the keyboard legend. All numbers are the design's.
     sealed class SetupSpread
     {
         public event Action ImportRequested;
@@ -140,8 +140,8 @@ namespace Rubrica.Ui
             keys.Children.Add(Shortcut("ESC", T("CLOSE / BACK")));
             page.Children.Add(keys);
 
-            // Not on the canvas (owner's decision, 2026-09-19): the language, below everything the
-            // artboard draws. Each name is written in its own language.
+            // Not in the original drawing: the language, below everything else on the page.
+            // Each name is written in its own language.
             var language = new StackPanel { Margin = new Thickness(0, 14 + 8, 0, 0) };
             language.Children.Add(Controls.Caption(T("LANGUAGE")));
             var choices = new StackPanel { Orientation = Orientation.Horizontal };

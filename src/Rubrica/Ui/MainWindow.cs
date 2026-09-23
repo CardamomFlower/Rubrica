@@ -13,7 +13,7 @@ using static Rubrica.Ui.Lang;
 namespace Rubrica.Ui
 {
     /// The window: scales the 960 x 720 scene to whatever size it is given, remembers where
-    /// it was, and decides which place of the book is on show (architecture section 4.1).
+    /// it was, and decides which place of the book is on show.
     /// Every change to the book goes through here, and is saved at once.
     sealed class MainWindow : Window
     {
@@ -60,6 +60,7 @@ namespace Rubrica.Ui
         SetupSpread setup;
         ImportResult lastImport;        // what UNDO would take out again
         Place editCameFrom;             // where CANCEL goes back to
+        DispatcherTimer stateDue;       // a look-up is waiting to be written to state.xml (see Touch)
         bool unsaved;                   // the last save failed: the screen is ahead of the disk
         bool closingAgreed;             // the operator said yes to losing what the form holds
         bool swallowNextMouseUp;        // the second click of a double-click
@@ -177,6 +178,7 @@ namespace Rubrica.Ui
                 }
             }
             RememberBounds();
+            WriteState();
         }
 
         /// Changes place, and lets go of what the place being left built: the PC stays up for
@@ -283,7 +285,7 @@ namespace Rubrica.Ui
         void ShowSpread()
         {
             list.SelectedId = open == null ? 0 : open.Id;
-            // With a card open the right page is left blank under it, as on the canvas.
+            // With a card open the right page is left blank under it, as the design has it.
             FrameworkElement right = open == null ? list.Page(2 * spread + 1) : null;
             binder.SetPages(list.Page(2 * spread), right, 2 * spread + 1, spread > 0, spread < list.SpreadCount - 1);
             if (open != null) binder.LayOnRightPage(Card(open), 20, 40);
@@ -348,7 +350,26 @@ namespace Rubrica.Ui
         void Touch(Contact contact, string action)
         {
             state.Touch(contact.Id, action, DateTime.Now);
-            if (saves) state.Save();
+            if (!saves || stateDue != null) return;
+
+            // state.xml changes at every look-up and holds nothing that cannot be lost - where the
+            // window was, and who was looked up lately. Writing it for each one would keep touching
+            // the disk of a PC that stays on for months, so a burst of look-ups is written once, a
+            // few seconds later, and closing the window writes what is still waiting.
+            // WPF: a DispatcherTimer ticks on the window's own thread. This one stops at its first
+            // tick - nothing of Rubrica's is left ticking while the operator does nothing.
+            stateDue = new DispatcherTimer { Interval = TimeSpan.FromSeconds(Constants.StateSaveSeconds) };
+            stateDue.Tick += delegate { WriteState(); };
+            stateDue.Start();
+        }
+
+        /// Writes state.xml when a look-up is waiting to be written, and stops the timer.
+        internal void WriteState()
+        {
+            if (stateDue == null) return;
+            stateDue.Stop();
+            stateDue = null;
+            state.Save();
         }
 
         // ---- search ----------------------------------------------------------------------
@@ -540,7 +561,7 @@ namespace Rubrica.Ui
             binder.SetPages(tabs.Left(), tabs.Right(), 1, false, false);
         }
 
-        // ---- Setup: import, export, backup (architecture sections 3 and 5) -----------------
+        // ---- Setup: import, export, backup -------------------------------------------------
 
         void OpenSetup()
         {
@@ -938,9 +959,9 @@ namespace Rubrica.Ui
         // "--place", for snapshots. n and i count from 1; i is the contact's position in category n.
         //   cover | favorites[:spread] | category:n[:spread]
         //   contact:n:i | delete:n:i | undo:n:i        the card, the question, the strip after it
-        //   edit:new | edit:as-drawn | edit:n:i        as-drawn = without SURNAME, like the artboard
+        //   edit:new | edit:as-drawn | edit:n:i        as-drawn = without SURNAME, as first drawn
         //   tabs | tabs:delete:n
-        //   search[:text] | recent | recent:demo    demo = the six look-ups the "Recent" artboard shows
+        //   search[:text] | recent | recent:demo    demo = the six look-ups the Recent page was drawn with
         //   language:en | language:it               as the radios in Setup do (the soak test walks through it)
         //   setup | setup:import:FILE               FILE = the slip that importing it shows, without the dialog
         public void GoTo(string where)
@@ -1017,7 +1038,7 @@ namespace Rubrica.Ui
             }
         }
 
-        /// The look-ups the "Recent contacts" artboard shows, at the artboard's times.
+        /// The six look-ups the Recent page was drawn with, at the times it was drawn with.
         void SeedRecents()
         {
             DateTime today = DateTime.Today;
