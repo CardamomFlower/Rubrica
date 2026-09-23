@@ -40,8 +40,8 @@ namespace Rubrica.Setup
 
             if (Files.InUse(places.InstalledExe))
                 return Outcome.Failed(T("Rubrica is running. Close it and try again."));
-            // An uninstaller left open cannot be replaced, and the one of 0.1.0 looks for the book
-            // where that version kept it: better to do nothing than to leave that behind.
+            // An uninstaller left open cannot be replaced, and one from another version does not
+            // know what this one installed: better to do nothing than to leave that behind.
             if (Files.InUse(places.Uninstaller))
                 return Outcome.Failed(T("Rubrica's uninstaller is open. Close it and try again."));
 
@@ -67,8 +67,8 @@ namespace Rubrica.Setup
             }
             catch (Exception)
             {
-                // What is left there is then an older version's, and an older uninstaller looks for
-                // the book where that version kept it: never leave this one unsaid.
+                // What is left there is then another version's, and it does not know what this one
+                // installed: never leave this unsaid.
                 problems.Add(T("The uninstaller could not be written."));
             }
 

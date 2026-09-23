@@ -96,11 +96,7 @@ namespace Rubrica.Setup
             {
                 note = T("Your contacts book went with it.");
                 Try(() => { if (Directory.Exists(places.DataFolder)) Directory.Delete(places.DataFolder, true); }, null, leftovers);
-                // A book still in the folder of 0.1.0, on a PC where the new Rubrica was never started,
-                // is the same book: it goes too, on its own account, and nothing above it does.
-                Try(() => { if (Directory.Exists(places.OldDataFolder)) Directory.Delete(places.OldDataFolder, true); }, null, leftovers);
-                if (Directory.Exists(places.DataFolder) || Directory.Exists(places.OldDataFolder))
-                    note = T("Your contacts book could not be deleted: it is still where it was.");
+                if (Directory.Exists(places.DataFolder)) note = T("Your contacts book could not be deleted: it is still where it was.");
             }
 
             Outcome outcome = Outcome.Done((note + " " + string.Join(" ", leftovers)).Trim());

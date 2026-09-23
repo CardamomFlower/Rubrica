@@ -27,9 +27,5 @@ namespace Rubrica
 
         /// Under %APPDATA%.
         public const string DataFolder = "Rubrica";
-
-        /// Where the book used to be kept, up to version 0.1.0: moved into the folder above on
-        /// the first start that finds it.
-        public const string OldDataFolder = @"CardamomTools\Rubrica";
     }
 }

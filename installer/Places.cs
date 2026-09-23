@@ -30,10 +30,6 @@ namespace Rubrica.Setup
         /// The operator's book, and nothing above it.
         public string DataFolder;
 
-        /// Where the book was kept up to 0.1.0, until Rubrica moves it on its first start. Only
-        /// this folder: what sits above it may belong to another program.
-        public string OldDataFolder;
-
         /// Under HKEY_CURRENT_USER.
         public string UninstallKey;
 
@@ -55,7 +51,6 @@ namespace Rubrica.Setup
                 StartMenuFolder = Environment.GetFolderPath(Environment.SpecialFolder.Programs),      // "" = no shortcut there, reported
                 DesktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                 DataFolder = Path.Combine(roaming, Constants.DataFolder),
-                OldDataFolder = Path.Combine(roaming, Constants.OldDataFolder),
                 UninstallKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\" + AppName,
             };
         }
@@ -71,18 +66,8 @@ namespace Rubrica.Setup
                 StartMenuFolder = Path.Combine(root, "StartMenu"),
                 DesktopFolder = Path.Combine(root, "Desktop"),
                 DataFolder = Path.Combine(root, "AppData", Constants.DataFolder),
-                OldDataFolder = Path.Combine(root, "AppData", Constants.OldDataFolder),
                 UninstallKey = @"Software\Rubrica\SetupSandbox\" + Path.GetFileName(root.TrimEnd('\\', '/')),
             };
-        }
-
-        /// The language the operator picked in Rubrica ("it", "en", or "" for never picked):
-        /// from the book's folder, or from the one of 0.1.0 on a PC where the build that moves
-        /// it has not run yet. AppState.Load never throws.
-        public static string PickedLanguage(Places places)
-        {
-            string code = Rubrica.Core.AppState.Load(places.DataFolder).Language;
-            return code.Length > 0 ? code : Rubrica.Core.AppState.Load(places.OldDataFolder).Language;
         }
 
         /// "0.1.0": the version this installer carries - its own, since both exes are built

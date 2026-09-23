@@ -44,7 +44,7 @@ namespace Rubrica
             string folder;
             try
             {
-                folder = Path.GetFullPath(Option(args, "--data") ?? BookStore.FolderToUse());
+                folder = Path.GetFullPath(Option(args, "--data") ?? BookStore.DefaultFolder());
             }
             catch (InvalidOperationException error)
             {
