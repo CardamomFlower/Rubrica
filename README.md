@@ -25,9 +25,7 @@ say that it does not know the publisher - choose **More info**, then **Run anywa
 
 Uninstall it from Settings > Apps like anything else. Your contacts are left where
 they are unless you tick the box that says otherwise. Installing a newer version over
-an older one replaces the program and keeps your contacts - if they were written by
-version 0.1.0 they stay in the old folder until you start the new version once (see
-**Where the book lives**).
+an older one replaces the program and leaves the book alone.
 
 ## Leafing through it
 
@@ -128,12 +126,6 @@ In `%APPDATA%\Rubrica`:
 | `book.xml` | The book. The only file that matters. |
 | `book.bak` | The save before the last one. |
 | `state.xml` | Window position, language, recent look-ups. Deleting it loses nothing of value. |
-
-Version 0.1.0 kept these files in `%APPDATA%\CardamomTools\Rubrica`. The first time a
-newer version starts it moves them here by itself, once, and takes the old folder away
-with them. Nothing is lost if it cannot - that run keeps using the old folder and the
-next start tries again. If you have a copy of that folder of your own, or a backup job
-pointed at it, point it here instead.
 
 If `book.xml` is ever damaged, Rubrica sets it aside under another name, opens
 `book.bak` instead and tells you. If it is merely out of reach - another program is
